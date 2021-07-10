@@ -6,7 +6,7 @@ const Filter = require('bad-words');
 const {generateMessage, generateMessageLink} = require('./utils/message');
 const {addUser, removeUser, getUser, getUsersInRoom} = require('./utils/user');
 const app = express();
-const PORT = 3000||process.env.PORT;
+const port = 3000||process.env.PORT;
 const server = http.createServer(app);
 
 const io=socketio(server);
@@ -60,6 +60,6 @@ app.get('/', function(req, res) {
 
 
 
-server.listen(PORT, function () {
-    console.log('Listen on port: ' + PORT);
+server.listen(port, function () {
+    console.log('Listen on port: ' + port);
 });
