@@ -38,7 +38,6 @@ formdata.addEventListener('submit',(e) => {
                return console.log(err);
             }
             console.log('send message successfully!');
-            sendMessage.removeAttribute('disabled');
         })
         msg.value ='';
        
@@ -65,10 +64,12 @@ socket.on('message', (message, id_send) => {
         let rendered = Mustache.render(templatesMessageSend, { data: message.text, time: moment(message.createdAt).format('H:mm a'), user_name: message.user_name });
         windowChat.insertAdjacentHTML('beforeend', rendered);
         autoScroll();
+        sendMessage.removeAttribute('disabled');
     }else{
         let rendered = Mustache.render(templatesMessage, { data: message.text, time: moment(message.createdAt).format('H:mm a'), user_name: message.user_name });
         windowChat.insertAdjacentHTML('beforeend', rendered);
         autoScroll();
+        sendMessage.removeAttribute('disabled');
     }
    
 })
