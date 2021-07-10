@@ -1,6 +1,6 @@
 const users = [];
 const addUser = function({id, user_name, room_id}) {
-    user_name = user_name.trim().toLowerCase();
+    user_name = user_name.trim();
     room_id = room_id.trim().toLowerCase();
     if(!user_name || !room_id){
         return {

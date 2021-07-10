@@ -7,6 +7,9 @@ const msg = document.querySelector('input[name="contentChat"]');
 const templatesMessage = document.querySelector('#templatesMessage').innerHTML;
 const templatesMessageLink = document.querySelector('#templatesMessage-Link').innerHTML;
 const templateSideBar = document.querySelector('#sidebar-template').innerHTML;
+const templateAutoMessage = document.querySelector('#auto_message-template').innerHTML;
+const templatesMessageSend = document.querySelector('#templatesMessageSend').innerHTML;
+const templatesMessageLinkSend = document.querySelector('#templatesMessage-Link-Send').innerHTML;
 const windowChat = document.querySelector('.window-chat');
 const {user_name, room_id} = Qs.parse(location.search,{ ignoreQueryPrefix: true });
 
@@ -57,15 +60,32 @@ btnLocation.addEventListener('click', (e) => {
          });
     })
 })
-socket.on('message', (message) => {
-    let rendered = Mustache.render(templatesMessage, { data: message.text, time: moment(message.createdAt).format('H:mm a'), user_name: message.user_name });
-    windowChat.insertAdjacentHTML('beforeend', rendered);
-    autoScroll();
+socket.on('message', (message, id_send) => {
+    if(socket.id===id_send){
+        let rendered = Mustache.render(templatesMessageSend, { data: message.text, time: moment(message.createdAt).format('H:mm a'), user_name: message.user_name });
+        windowChat.insertAdjacentHTML('beforeend', rendered);
+        autoScroll();
+    }else{
+        let rendered = Mustache.render(templatesMessage, { data: message.text, time: moment(message.createdAt).format('H:mm a'), user_name: message.user_name });
+        windowChat.insertAdjacentHTML('beforeend', rendered);
+        autoScroll();
+    }
+   
 })
-socket.on('locationMessage', (message) => {
-    let rendered = Mustache.render(templatesMessageLink, { data: message.text, time: moment(message.createdAt).format('H:mm a'), user_name: message.user_name  });
+socket.on('message-auto', (message) => {
+    let rendered = Mustache.render(templateAutoMessage, { data: message.text, time: moment(message.createdAt).format('H:mm a'), user_name: message.user_name });
     windowChat.insertAdjacentHTML('beforeend', rendered);
-    autoScroll();
+})
+socket.on('locationMessage', (message, id_send) => {
+    if(socket.id===id_send){
+        let rendered = Mustache.render(templatesMessageLinkSend, { data: message.text, time: moment(message.createdAt).format('H:mm a'), user_name: message.user_name });
+        windowChat.insertAdjacentHTML('beforeend', rendered);
+        autoScroll();
+    }else{
+        let rendered = Mustache.render(templatesMessageLink, { data: message.text, time: moment(message.createdAt).format('H:mm a'), user_name: message.user_name });
+        windowChat.insertAdjacentHTML('beforeend', rendered);
+        autoScroll();
+    }
 })
 socket.emit('join', {user_name, room_id},(error) => {
     if(error){

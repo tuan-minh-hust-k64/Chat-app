@@ -65,6 +65,7 @@ button:disabled {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column; 
 }
 
 .centered-form__box {
@@ -72,6 +73,8 @@ button:disabled {
     background: #F7F7FA;
     padding: 24px;
     width: 250px;
+    margin-top: 20px;
+    border-radius: 5px;
 }
 
 .centered-form button {
@@ -116,8 +119,11 @@ button:disabled {
 
 .message {
     margin-bottom: 16px;   
+    text-align: end;
 }
-
+.message-1{
+    margin-bottom: 16px;   
+}
 .message__name {
     font-weight: 600;
     font-size: 14px;
@@ -133,6 +139,9 @@ button:disabled {
     color: #0070CC;
 }
 
+.message-auto{
+   text-align: center;
+}
 /* Message Composition Styles */
 
 .compose {

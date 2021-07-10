@@ -5,6 +5,7 @@ const socketio = require('socket.io');
 const Filter = require('bad-words');
 const {generateMessage, generateMessageLink} = require('./utils/message');
 const {addUser, removeUser, getUser, getUsersInRoom} = require('./utils/user');
+const { send } = require('process');
 const app = express();
 const port =process.env.PORT||3000;
 const server = http.createServer(app);
@@ -21,8 +22,8 @@ io.on('connection', (socket) => {
         }
 
         socket.join(room_id);
-        socket.emit('message', generateMessage(data, 'Chat-app'));
-        socket.to(room_id).emit('message', generateMessage(`${user_name} has joined`, 'Chat-app'));
+        socket.emit('message-auto', generateMessage(data, 'Chat-app'));
+        socket.to(room_id).emit('message-auto', generateMessage(`${user_name} has joined`, 'Chat-app'));
         callback();
         io.in(room_id).emit('roomData', {room_id, users: getUsersInRoom(room_id)});
     })
@@ -32,18 +33,18 @@ io.on('connection', (socket) => {
 
         const filterMessage = new Filter();
         let newMessage = filterMessage.clean(message);
-        io.in(user.room_id).emit('message', generateMessage(newMessage, user.user_name));
-        callback();
+        io.in(user.room_id).emit('message', generateMessage(newMessage, user.user_name), socket.id);
+        callback(); 
     })
     socket.on('disconnect', () => {
         var user = removeUser(socket.id);
-        io.in(user.room_id).emit('message', generateMessage(`${user.user_name} has out`, 'Chat-app'));
+        io.in(user.room_id).emit('message-auto', generateMessage(`${user.user_name} has out`, 'Chat-app'));
         io.in(user.room_id).emit('roomData', {room_id: user.room_id, users: getUsersInRoom(user.room_id)});
     })
     socket.on('sendLocation', (latitude, longitude, callback) => {
         var user = getUser(socket.id);
         let location = `http://google.com/maps?q=${latitude},${longitude}`
-        io.in(user.room_id).emit('locationMessage',generateMessageLink(location, user.user_name));
+        io.in(user.room_id).emit('locationMessage',generateMessageLink(location, user.user_name), socket.id);
         callback();
     })
 })
