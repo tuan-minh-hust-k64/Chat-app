@@ -40,9 +40,6 @@ window.fbAsyncInit = function() {
             faceID.value = response.id;
         }
       );
-    }else {
-      alert('Please login with your facebook');
-      location.href = '/';
-    }              // The current login status of the person.
+    }             // The current login status of the person.
   }
  
