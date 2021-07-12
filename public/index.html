@@ -20,6 +20,13 @@
                 <input type="text" name="user_name" placeholder="Name" required>
                 <label for="">Room ID</label>
                 <input type="text" name="room_id" placeholder="Room ID" required>
+                <label for="">Id your facebook</label>
+                <input type="text" name="faceID" placeholder="your facebook ID">
+                <script src="./js/index.js"></script>
+                <fb:login-button 
+                scope="public_profile,email"
+                onlogin="checkLoginState();">
+                </fb:login-button>
                 <button>Join</button>
             </form>
             <p style="text-align:center; padding-top: 10px;">Application developed by Tuan Minh </p>

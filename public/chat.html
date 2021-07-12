@@ -9,7 +9,6 @@
     <link rel="icon" type="image/png" href="/img/favicon.png">
 </head>
 <body>
-
     <div class="chat">
         <div class="chat__sidebar">
 
@@ -31,21 +30,26 @@
 
     <script id="templatesMessage" type="HTML">
         <div class="message-1">
-           <p>
-                <span class="message__name">{{user_name}}</span> 
-                <span class="message__meta">{{time}}</span>
-            </p>
-            <p >{{data}}</p>
+           
+            <div class="img_user">
+                <img style="border-radius:50%" src="https://graph.facebook.com/905206533591178/picture?width=30&amp;height=30" alt="">
+            </div>
+            <div class="msg">
+                <div class="message-name_user">
+                    <p>
+                        <span class="message__name">{{user_name}}</span> 
+                        <span class="message__meta">{{time}}</span>
+                    </p>
+                </div>
+                <div class="content_main">
+                    <p >{{data}}</p>
+                </div>
+            </div>
         </div>
     </script>
     <script id="templatesMessageSend" type="HTML">
         <div class="message">
             <div class="content">
-                <p>
-                    <span class="message__meta">{{time}}</span>
-                    <span class="message__name">{{user_name}}</span>
-                    
-                </p>
                 <p >{{data}}</p>
             </div>
            
