@@ -57,11 +57,17 @@
     </script>
     <script id="templatesMessage-Link" type="HTML">
         <div class="message-1">
-            <p>
-                <span class="message__name">{{user_name}}</span>
-                <span class="message__meta">{{time}}</span>
-            </p>
-            <p><a href="{{data}}" target="_blank"> My current location</a></p>
+            <div class="img_user">
+                <img style="border-radius:50%" src={{urlImg}} alt="">
+            </div>
+            <div class="msg">
+                <p>
+                    <span class="message__name">{{user_name}}</span>
+                    <span class="message__meta">{{time}}</span>
+                </p>
+                <p><a href="{{data}}" target="_blank"> My current location</a></p>
+            </div>
+            
         </div>
     </script>
     <script id="templatesMessage-Link-Send" type="HTML">

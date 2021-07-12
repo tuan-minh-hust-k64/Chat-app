@@ -84,7 +84,8 @@ socket.on('locationMessage', (message, id_send) => {
         windowChat.insertAdjacentHTML('beforeend', rendered);
         autoScroll();
     }else{
-        let rendered = Mustache.render(templatesMessageLink, { data: message.text, time: moment(message.createdAt).format('H:mm a'), user_name: message.user_name });
+        var urlImg = "https://graph.facebook.com/"+faceID+"/picture?width=30&amp;height=30"
+        let rendered = Mustache.render(templatesMessageLink, { data: message.text, time: moment(message.createdAt).format('H:mm a'), user_name: message.user_name,urlImg });
         windowChat.insertAdjacentHTML('beforeend', rendered);
         autoScroll();
     }
