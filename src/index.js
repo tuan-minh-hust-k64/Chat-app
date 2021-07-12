@@ -15,7 +15,7 @@ let data = 'Wealcome to Chat-app';
 
 io.on('connection', (socket) => {
 
-    socket.on('join', ({user_name, room_id},callback) => {
+    socket.on('join', ({user_name, room_id, faceID},callback) => {
         var user = addUser({id:socket.id, user_name, room_id});
         if(user.error){
             return callback(user.error);
@@ -28,12 +28,12 @@ io.on('connection', (socket) => {
         io.in(room_id).emit('roomData', {room_id, users: getUsersInRoom(room_id)});
     })
     
-    socket.on('sendMessage', (message, callback) => {
+    socket.on('sendMessage', (message, faceID, callback) => {
         var user = getUser(socket.id);
 
         const filterMessage = new Filter();
         let newMessage = filterMessage.clean(message);
-        io.in(user.room_id).emit('message', generateMessage(newMessage, user.user_name), socket.id);
+        io.in(user.room_id).emit('message', generateMessage(newMessage, user.user_name), socket.id, faceID);
         callback(); 
     })
     socket.on('disconnect', () => {

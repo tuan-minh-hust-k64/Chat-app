@@ -11,7 +11,7 @@ const templateAutoMessage = document.querySelector('#auto_message-template').inn
 const templatesMessageSend = document.querySelector('#templatesMessageSend').innerHTML;
 const templatesMessageLinkSend = document.querySelector('#templatesMessage-Link-Send').innerHTML;
 const windowChat = document.querySelector('.window-chat');
-const {user_name, room_id} = Qs.parse(location.search,{ ignoreQueryPrefix: true });
+const {user_name, room_id, faceID} = Qs.parse(location.search,{ ignoreQueryPrefix: true });
 
 const autoScroll = () => {
     const windowchatHeight = windowChat.offsetHeight;// chieu cao khung nhin
@@ -33,7 +33,7 @@ formdata.addEventListener('submit',(e) => {
     
     if(msg.value){
         sendMessage.setAttribute('disabled', true);
-        socket.emit('sendMessage', msg.value, (err) => {
+        socket.emit('sendMessage', msg.value, faceID, (err) => {
             if(err){
                return console.log(err);
             }
@@ -59,14 +59,15 @@ btnLocation.addEventListener('click', (e) => {
          });
     })
 })
-socket.on('message', (message, id_send) => {
+socket.on('message', (message, id_send, faceID) => {
     if(socket.id===id_send){
         let rendered = Mustache.render(templatesMessageSend, { data: message.text, time: moment(message.createdAt).format('H:mm a'), user_name: message.user_name });
         windowChat.insertAdjacentHTML('beforeend', rendered);
         autoScroll();
         sendMessage.removeAttribute('disabled');
     }else{
-        let rendered = Mustache.render(templatesMessage, { data: message.text, time: moment(message.createdAt).format('H:mm a'), user_name: message.user_name });
+        var urlImg = "https://graph.facebook.com/"+faceID+"/picture?width=30&amp;height=30"
+        let rendered = Mustache.render(templatesMessage, { data: message.text, time: moment(message.createdAt).format('H:mm a'), user_name: message.user_name, urlImg });
         windowChat.insertAdjacentHTML('beforeend', rendered);
         autoScroll();
         sendMessage.removeAttribute('disabled');
@@ -88,7 +89,7 @@ socket.on('locationMessage', (message, id_send) => {
         autoScroll();
     }
 })
-socket.emit('join', {user_name, room_id},(error) => {
+socket.emit('join', {user_name, room_id, faceID},(error) => {
     if(error){
         alert(error);
         location.href = '/';

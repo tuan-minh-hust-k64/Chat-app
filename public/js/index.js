@@ -41,7 +41,8 @@ window.fbAsyncInit = function() {
         }
       );
     }else {
-      Alert('Please login with your facebook');
+      alert('Please login with your facebook');
+      location.href = '/';
     }              // The current login status of the person.
   }
  
